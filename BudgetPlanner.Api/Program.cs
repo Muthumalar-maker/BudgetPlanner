@@ -1,16 +1,18 @@
 
-using System.Text;
 using BudgetPlanner.Api.Authentication;
 using BudgetPlanner.Api.Data;
 using BudgetPlanner.Api.Models;
+using BudgetPlanner.Api.Repositories;
 using BudgetPlanner.Api.Repositories.Implementations;
 using BudgetPlanner.Api.Repositories.Interfaces;
+using BudgetPlanner.Api.Services;
 using BudgetPlanner.Api.Services.Implementations;
 using BudgetPlanner.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,6 +74,9 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 
+
+builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
+builder.Services.AddScoped<IBudgetService, BudgetService>();
 
 builder.Services.AddScoped<JwtService>();
 
