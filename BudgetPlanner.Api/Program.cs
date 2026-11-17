@@ -64,6 +64,12 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+
+
 builder.Services.AddScoped<JwtService>();
 
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
