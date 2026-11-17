@@ -1,1 +1,214 @@
-<p>categories works!</p>
+
+<div class="categories-page">
+
+  <div class="page-header">
+    <div>
+      <span class="eyebrow">FINANCE MANAGEMENT</span>
+      <h1>Categories</h1>
+      <p>Organize your income and expenses in one place.</p>
+    </div>
+
+    <div class="total-badge">
+      {{ categories.length }} Categories
+    </div>
+  </div>
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <div class="stat-icon total-icon">▦</div>
+      <div>
+        <span>Total Categories</span>
+        <h2>{{ categories.length }}</h2>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon income-icon">↗</div>
+      <div>
+        <span>Income Categories</span>
+        <h2>{{ incomeCount }}</h2>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon expense-icon">↘</div>
+      <div>
+        <span>Expense Categories</span>
+        <h2>{{ expenseCount }}</h2>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="content-grid">
+
+    <!-- Add / Edit Form -->
+    <section class="form-card">
+
+      <div class="section-heading">
+        <div>
+          <h2>
+            {{ selectedCategoryId ? 'Edit Category' : 'Add Category' }}
+          </h2>
+          <p>Create and manage your categories.</p>
+        </div>
+      </div>
+
+      <div *ngIf="successMessage" class="alert success">
+        {{ successMessage }}
+      </div>
+
+      <div *ngIf="errorMessage" class="alert error">
+        {{ errorMessage }}
+      </div>
+
+      <form (ngSubmit)="saveCategory()">
+
+        <label for="categoryName">Category Name</label>
+
+        <input
+          id="categoryName"
+          type="text"
+          name="categoryName"
+          [(ngModel)]="categoryName"
+          placeholder="Example: Food, Salary, Travel"
+          maxlength="50"
+          required
+        />
+
+        <label for="type">Category Type</label>
+
+        <select
+          id="type"
+          name="type"
+          [(ngModel)]="type"
+          required
+        >
+          <option value="Expense">Expense</option>
+          <option value="Income">Income</option>
+        </select>
+
+        <button
+          type="submit"
+          class="primary-btn"
+          [disabled]="saving"
+        >
+          {{ saving ? 'Saving...' : (selectedCategoryId ? 'Update Category' : 'Add Category') }}
+        </button>
+
+        <button
+          *ngIf="selectedCategoryId"
+          type="button"
+          class="cancel-btn"
+          (click)="resetForm()"
+        >
+          Cancel Edit
+        </button>
+
+      </form>
+
+    </section>
+
+    <!-- Category List -->
+    <section class="list-card">
+
+      <div class="section-heading list-heading">
+        <div>
+          <h2>My Categories</h2>
+          <p>View and manage your categories.</p>
+        </div>
+
+        <button class="refresh-btn" (click)="loadCategories()">
+          ↻ Refresh
+        </button>
+      </div>
+
+      <div class="filter-tabs">
+        <button
+          [class.active]="filterType === 'All'"
+          (click)="filterType = 'All'"
+        >
+          All
+        </button>
+
+        <button
+          [class.active]="filterType === 'Income'"
+          (click)="filterType = 'Income'"
+        >
+          Income
+        </button>
+
+        <button
+          [class.active]="filterType === 'Expense'"
+          (click)="filterType = 'Expense'"
+        >
+          Expense
+        </button>
+      </div>
+
+      <div *ngIf="loading" class="empty-state">
+        Loading categories...
+      </div>
+
+      <div *ngIf="!loading && filteredCategories.length === 0"
+           class="empty-state">
+        <div class="empty-icon">▦</div>
+        <h3>No categories found</h3>
+        <p>Add your first category using the form.</p>
+      </div>
+
+      <div
+        class="category-list"
+        *ngIf="!loading && filteredCategories.length > 0"
+      >
+
+        <div
+          class="category-item"
+          *ngFor="let category of filteredCategories"
+        >
+
+          <div class="category-info">
+            <div
+              class="category-icon"
+              [class.income-bg]="category.type === 'Income'"
+              [class.expense-bg]="category.type === 'Expense'"
+            >
+              {{ category.type === 'Income' ? '↗' : '↘' }}
+            </div>
+
+            <div>
+              <h3>{{ category.categoryName }}</h3>
+              <span>{{ category.type }}</span>
+            </div>
+          </div>
+
+          <div class="category-actions">
+
+            <button
+              class="edit-btn"
+              title="Edit category"
+              (click)="editCategory(category)"
+            >
+              Edit
+            </button>
+
+            <button
+              class="delete-btn"
+              title="Delete category"
+              (click)="deleteCategory(category)"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</div>
