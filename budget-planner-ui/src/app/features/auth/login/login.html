@@ -1,0 +1,101 @@
+
+<div class="login-page">
+
+  <div class="login-left">
+    <div class="brand">
+      <div class="brand-icon">₹</div>
+      <span>Budget<span class="brand-highlight">Planner</span></span>
+    </div>
+
+    <div class="welcome-content">
+      <span class="welcome-label">PERSONAL FINANCE MANAGEMENT</span>
+
+      <h1>Take control of<br>your <span>money.</span></h1>
+
+      <p>
+        Track your income, manage expenses and build better
+        financial habits with one simple dashboard.
+      </p>
+
+      <div class="feature-list">
+        <div>✓ Track your daily transactions</div>
+        <div>✓ Manage monthly budgets</div>
+        <div>✓ Understand your spending habits</div>
+      </div>
+    </div>
+
+    <div class="left-footer">
+      © 2026 Budget Planner. All rights reserved.
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-card">
+
+      <div class="mobile-brand">
+        <div class="brand-icon">₹</div>
+        <span>Budget<span class="brand-highlight">Planner</span></span>
+      </div>
+
+      <div class="form-heading">
+        <span class="small-label">WELCOME BACK</span>
+        <h2>Sign in to your account</h2>
+        <p>Enter your details to continue.</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+          <label for="email">Email address</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Enter your email"
+          />
+
+          @if (loginForm.controls.email.touched &&
+               loginForm.controls.email.invalid) {
+            <small class="error-text">
+              Please enter a valid email address.
+            </small>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Enter your password"
+          />
+
+          @if (loginForm.controls.password.touched &&
+               loginForm.controls.password.invalid) {
+            <small class="error-text">
+              Password must contain at least 6 characters.
+            </small>
+          }
+        </div>
+
+        @if (errorMessage) {
+          <div class="error-message">{{ errorMessage }}</div>
+        }
+
+        <button type="submit" [disabled]="loading">
+          {{ loading ? 'Signing in...' : 'Sign In' }}
+          <span>→</span>
+        </button>
+
+      </form>
+
+      <div class="register-link">
+        Don't have an account?
+        <a routerLink="/register">Create account</a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
